@@ -1,0 +1,100 @@
+{
+  "entities": {
+    "Account": {
+      "title": "Account",
+      "description": "A financial account (checking or credit card).",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string", "enum": ["checking", "credit"] },
+        "balance": { "type": "number" },
+        "limit": { "type": "number" },
+        "currency": { "type": "string" },
+        "lastSynced": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "ownerId", "name", "type", "balance"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "A individual financial transaction.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "accountId": { "type": "string" },
+        "date": { "type": "string", "format": "date-time" },
+        "amount": { "type": "number" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "isManualCategory": { "type": "boolean" },
+        "type": { "type": "string", "enum": ["debit", "credit", "transfer"] },
+        "relatedTransactionId": { "type": "string" }
+      },
+      "required": ["id", "ownerId", "accountId", "date", "amount", "description", "category", "type"]
+    },
+    "Budget": {
+      "title": "Budget",
+      "description": "A monthly budget for a specific category.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "category": { "type": "string" },
+        "limit": { "type": "number" },
+        "period": { "type": "string" }
+      },
+      "required": ["id", "ownerId", "category", "limit", "period"]
+    },
+    "Bill": {
+      "title": "Bill",
+      "description": "An upcoming bill or payment reminder.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "name": { "type": "string" },
+        "amount": { "type": "number" },
+        "dueDate": { "type": "string", "format": "date-time" },
+        "isPaid": { "type": "boolean" },
+        "accountId": { "type": "string" }
+      },
+      "required": ["id", "ownerId", "name", "amount", "dueDate", "isPaid"]
+    },
+    "UserSetting": {
+      "title": "UserSetting",
+      "description": "User preferences and sync state.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string" },
+        "lowBalanceAlert": { "type": "number" },
+        "largeTransactionAlert": { "type": "number" },
+        "isPlaidLinked": { "type": "boolean" }
+      },
+      "required": ["ownerId"]
+    }
+  },
+  "firestore": {
+    "/accounts/{accountId}": {
+      "schema": "Account",
+      "description": "User financial accounts."
+    },
+    "/transactions/{transactionId}": {
+      "schema": "Transaction",
+      "description": "All financial transactions."
+    },
+    "/budgets/{budgetId}": {
+      "schema": "Budget",
+      "description": "Monthly spending limits."
+    },
+    "/bills/{billId}": {
+      "schema": "Bill",
+      "description": "Upcoming bills."
+    },
+    "/settings/{ownerId}": {
+      "schema": "UserSetting",
+      "description": "User specific settings."
+    }
+  }
+}

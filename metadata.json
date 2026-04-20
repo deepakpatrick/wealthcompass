@@ -1,0 +1,6 @@
+{
+  "name": "WealthCompass",
+  "description": "A comprehensive personal finance manager for tracking balances, categorizing transactions, and monitoring budgets across multiple accounts.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
